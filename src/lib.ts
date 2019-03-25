@@ -102,16 +102,17 @@ function clampDimensions(
 
   return [rectifiedWidth, height];
 }
-interface FileUploadEvent {
+export interface FileUploadEvent {
   files: File[];
 }
 
-export async function loadFile({ files }: FileUploadEvent) {
+export async function loadFile({ files }: FileUploadEvent): Promise<string> {
   const reader = new FileReader();
-  return new Promise((resolve) => {
-    reader.onload = () => resolve(`${reader.result}`);
+  const result = new Promise((resolve) => {
+    reader.onload = () => resolve(reader.result || '');
     reader.readAsDataURL(files[0]);
   });
+  return result.then((r) => `${r}`);
 }
 
 // export async function loadFile(inputEl: HTMLInputElement): Promise<string> {
