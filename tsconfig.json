@@ -13,7 +13,8 @@
     "baseUrl": ".",
     "types": [
       "node",
-      "jest"
+      "jest",
+      "vuetify"
     ],
     "paths": {
       "@/*": [
