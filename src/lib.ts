@@ -7,7 +7,7 @@ type RGB = [number, number, number] | Uint8Array;
 // type Hex = number; // between 0x0 and 0xFFFFFF for rgb, 0xFFFFFFFF for rgba
 type GrayScaler = (color: RGB) => number;
 
-const DEFAULT_RAMP = (
+export const DEFAULT_RAMP = (
   '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,"^`\'. '
 );
 
@@ -114,24 +114,3 @@ export async function loadFile({ files }: FileUploadEvent): Promise<string> {
   });
   return result.then((r) => `${r}`);
 }
-
-// export async function loadFile(inputEl: HTMLInputElement): Promise<string> {
-//   const result: Promise<string> = new Promise((resolve, reject) => {
-//     const resolveFile = () => {
-//       if (inputEl.files && inputEl.files.length) {
-//         const file: File = inputEl.files[0];
-//         const reader = new FileReader();
-//         reader.onload = () => resolve(`${reader.result}`);
-//         reader.readAsDataURL(file);
-//       } else {
-//         reject(new Error('no file'));
-//       }
-//     };
-//     inputEl.addEventListener(resolveFile, { once: true });
-//   });
-//   return result;
-// }
-
-// function tiler(): string {
-//
-// }
