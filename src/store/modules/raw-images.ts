@@ -1,12 +1,12 @@
-import { Module } from 'vuex';
-import md5 from 'md5';
-
+import md5 from "md5";
+import { Module } from "vuex";
 
 interface HashToDataUrl {
   [index: string]: string;
 }
 interface RawId {
-  hash: string; dataUrl: string;
+  hash: string;
+  dataUrl: string;
 }
 
 const mutations = {
@@ -16,13 +16,13 @@ const mutations = {
       state[hash] = dataUrl;
     }
     return { hash, dataUrl };
-  },
+  }
 };
 
 const store: Module<HashToDataUrl, object> = {
-  namespaced: true,
-  state: {},
   mutations,
+  namespaced: true,
+  state: {}
 };
 
 export default store;

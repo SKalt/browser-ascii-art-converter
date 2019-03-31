@@ -6,15 +6,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue';
+import Vue from "vue";
 // @ is an alias to /src
-import FileUpload from '../components/FileUpload.vue';
-import ConfigurationForm from '../components/ConfigurationForm.vue';
+import ConfigurationForm from "../components/ConfigurationForm.vue";
+import FileUpload from "../components/FileUpload.vue";
 export default Vue.extend({
-  name: 'home',
+  name: "home",
   components: {
     FileUpload,
-    ConfigurationForm,
-  },
+    ConfigurationForm
+  }
 });
 </script>
