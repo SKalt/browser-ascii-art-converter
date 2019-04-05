@@ -26,11 +26,13 @@ export default Vue.extend({
     EnhancedImage,
   },
   created() {
+    this.$router.push({path: "/", query:})
     fetch(dfltImg)
       .then(r => r.blob())
-      .then((b: Blob) => new File([b], 'vue-logo.png', {type: 'image/png'}))
+      .then((b: Blob) => new File([b], "vue-logo.png", {type: "image/png"}))
       .then(
         (file: File) => loadFile({ files: [file] })
+          // TODO: mirror loaded filename to document.title
           .then(
             (dataUrl: string) => {
               this.src = dataUrl;
@@ -50,6 +52,11 @@ export default Vue.extend({
         return this.$store.commit("RawImage/addImage", dataUrl)
       })
     }
-  }
+  },
+  // watch: {
+  //   src(next: string){
+  //     this.src
+  //   }
+  // }
 });
 </script>

@@ -1,17 +1,33 @@
 import { Module } from "vuex";
+import router from "../../router";
+import { Config, RootState } from "../types";
 import { DEFAULT_RAMP } from "../../lib";
 
-interface Config {
-  width: number;
-  height: number;
-  grayramp: string;
+type ConfigKey = "width" | "height" | "grayramp";
+
+function setter(name: ConfigKey) {
+  return function _setter(state: Config, value: string | number) {
+    state[name] = value;
+  };
 }
 
-const module: Module<Config, object> = {
+const str = (key: ConfigKey) => (state: Config): string => `${state[key]}`;
+
+const module: Module<Config, RootState> = {
+  namespaced: true,
   state: {
     grayramp: DEFAULT_RAMP,
     height: 80,
     width: 80
+  },
+  mutations: {
+    setGrayramp: setter("grayramp"),
+    setHeight: setter("height"),
+    setWidth: setter("width")
+  },
+  getters: {
+    strHeight: str("height"),
+    strWidth: str("width")
   }
 };
 

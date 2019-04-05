@@ -6,7 +6,8 @@
       type="number"
       label="width"
       min="0"
-      :value.sync="width"
+      :value="width"
+      @update:value=""
     />
     <v-text-field
       class="mt-0"
@@ -19,6 +20,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
+import { mapMutations } from "vuex";
 import { DEFAULT_RAMP } from "../lib";
 export default Vue.extend({
   data() {
@@ -27,6 +29,9 @@ export default Vue.extend({
       height: 80,
       width: 80
     };
+  },
+  mutations: {
+    ...mapMutations(["config"])
   }
 });
 </script>
