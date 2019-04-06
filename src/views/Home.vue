@@ -1,8 +1,8 @@
 <template>
-  <div class="home">
+  <v-container class="home">
     <file-upload />
     <configuration-form />
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">

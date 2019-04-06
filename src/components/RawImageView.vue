@@ -4,6 +4,7 @@
 <script lang="ts">
 import Vue from "vue";
 import EnhancedImage from "./EnhancedImage.vue";
+
 export default Vue.extend({
   components: {
     EnhancedImage

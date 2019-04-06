@@ -8,6 +8,7 @@
       @change="loadFile"
     />
     <raw-image-view />
+    <!-- <raw-image-view /> -->
     <!-- <canvas ref="to-paint" v-show="false"></canvas> -->
   </v-input>
 </template>
