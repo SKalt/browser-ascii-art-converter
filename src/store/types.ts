@@ -14,10 +14,18 @@ export interface Config {
   grayramp: string;
 }
 
+export interface FontState {
+  current: string | null;
+}
+export interface FontRatioInfo {
+  [font: string]: number;
+}
+
 export interface OverallState extends CurrentImage {
   rawImage: ImageCache;
   processedImage: ImageCache;
   config: Config;
+  fontInfo: FontInfo;
 }
 
 export interface OverallGetters {

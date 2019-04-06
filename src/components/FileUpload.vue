@@ -7,56 +7,46 @@
       type="file"
       @change="loadFile"
     />
-    <enhanced-image :src="src" />
+    <raw-image-view />
+    <!-- <canvas ref="to-paint" v-show="false"></canvas> -->
   </v-input>
 </template>
 <script lang="ts">
-import dfltImg from "../assets/logo.png"
-import Vue from "vue"
-import EnhancedImage from './EnhancedImage.vue'
-import { loadFile } from "../lib"
+import dfltImg from "../assets/logo.png";
+import RawImageView from "./RawImageView.vue";
+import Vue from "vue";
+import { loadFile } from "../lib";
+import { makeName } from "../router";
+
 interface FileUploadEvent {
-  target: { files: File[] }
+  target: { files: File[] };
 }
+
 export default Vue.extend({
-  data() {
-    return { src: "" };
-  },
   components: {
-    EnhancedImage,
+    RawImageView
   },
   created() {
-    this.$router.push({path: "/", query:})
+    this.$router.push({ path: "/", query: {} });
     fetch(dfltImg)
       .then(r => r.blob())
-      .then((b: Blob) => new File([b], "vue-logo.png", {type: "image/png"}))
-      .then(
-        (file: File) => loadFile({ files: [file] })
+      .then((b: Blob) => new File([b], "vue-logo.png", { type: "image/png" }))
+      .then((file: File) =>
+        loadFile({ files: [file] })
           // TODO: mirror loaded filename to document.title
-          .then(
-            (dataUrl: string) => {
-              this.src = dataUrl;
-              this.$store.commit("RawImage/addImage", dataUrl)
-            }
-          )
+          .then(async (dataUrl: string) => {
+            // this.src = dataUrl;
+            await this.$store.dispatch("addImage", dataUrl);
+          })
+          .then(() => (document.title = makeName(file.name)))
+      );
   },
-  // computed: {
-  //   src() {
-  //     return this.$store.getters.
-  //   }
-  // },
   methods: {
     loadFile(e: FileUploadEvent): Promise<void> {
       return loadFile(e.target).then((dataUrl: string) => {
-        this.src = dataUrl
-        return this.$store.commit("RawImage/addImage", dataUrl)
-      })
+        return this.$store.commit("rawImage/addImage", dataUrl);
+      });
     }
-  },
-  // watch: {
-  //   src(next: string){
-  //     this.src
-  //   }
-  // }
+  }
 });
 </script>

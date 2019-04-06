@@ -7,14 +7,15 @@
       label="width"
       min="0"
       :value="width"
-      @update:value=""
+      @input="v => $store.commit('config/setWidth', Number(v))"
     />
     <v-text-field
       class="mt-0"
       type="number"
       label="height"
       min="0"
-      :value.sync="height"
+      :value="height"
+      @input="v => $store.commit('config/setHeight', Number(v))"
     />
   </form>
 </template>
@@ -30,13 +31,13 @@ export default Vue.extend({
       width: 80
     };
   },
-  mutations: {
+  methods: {
     ...mapMutations(["config"])
   }
 });
 </script>
 <style scoped>
-input {
+/deep/ .v-text-field__slot input {
   font-family: monospace;
 }
 </style>

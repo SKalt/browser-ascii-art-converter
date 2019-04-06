@@ -41,7 +41,7 @@ function mergeQuery(query: StringConfig) {
   return { ...router.currentRoute.query, ...query };
 }
 
-function makeName(name: string = "___") {
+export function makeName(name: string = "___") {
   name = name || "___";
   name = name.length > 9 ? name.slice(0, 10) + "…" : name;
   return `art(${name})`;

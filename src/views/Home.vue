@@ -7,14 +7,19 @@
 
 <script lang="ts">
 import Vue from "vue";
-// @ is an alias to /src
 import ConfigurationForm from "../components/ConfigurationForm.vue";
 import FileUpload from "../components/FileUpload.vue";
+import { getMonospaceFontRatio } from "../lib";
 export default Vue.extend({
   name: "home",
   components: {
     FileUpload,
     ConfigurationForm
+  },
+  mounted() {
+    this.$store.commit("fontInfo/ratios/setRatio", {
+      monospace: getMonospaceFontRatio(document, "monospace")
+    });
   }
 });
 </script>

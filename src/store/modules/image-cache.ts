@@ -10,13 +10,23 @@ import { ImageCache } from "../types";
 
 const store: Module<ImageCache, object> = {
   namespaced: true,
-  state: {},
+  state: () => ({}),
   mutations: {
-    addImage: (state: ImageCache, dataUrl: string) => {
-      const hash = md5(dataUrl);
+    addImage: (
+      state: ImageCache,
+      { hash = "", dataUrl = "" }: { hash: string; dataUrl: string }
+    ) => {
+      hash = hash || md5(dataUrl);
       if (!(hash in state)) {
         state[hash] = dataUrl;
       }
+    }
+  },
+  actions: {
+    async addImage(ctx, dataUrl) {
+      const hash = md5(dataUrl);
+      ctx.commit("addImage", { hash, dataUrl });
+      return hash;
     }
   }
 };
