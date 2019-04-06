@@ -5,7 +5,7 @@ and its associated repo, https://github.com/jpetitcolas/ascii-art-converter.
 type RGB = [number, number, number] | Uint8Array;
 // type RGBA = [number, number, number, number?];
 // type Hex = number; // between 0x0 and 0xFFFFFF for rgb, 0xFFFFFFFF for rgba
-type GrayScaler = (color: RGB) => number;
+export type GrayScaler = (color: RGB) => number;
 
 export const DEFAULT_RAMP =
   "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
@@ -17,7 +17,7 @@ interface Palette {
 
 type Artist = (img: ImageData, palette: Palette) => string;
 
-function makeGrayScaler(weights: RGB = [0.21, 0.72, 0.07]): GrayScaler {
+export function makeGrayScaler(weights: RGB = [0.21, 0.72, 0.07]): GrayScaler {
   return function grayScale(color: RGB = [0, 0, 0]): number {
     return (
       color[0] * weights[0] + color[1] * weights[1] + color[2] * weights[2]
@@ -25,10 +25,20 @@ function makeGrayScaler(weights: RGB = [0.21, 0.72, 0.07]): GrayScaler {
   };
 }
 
-function makeGrayConverter(ramp: string = DEFAULT_RAMP) {
+export function makeGrayConverter(ramp: string = DEFAULT_RAMP) {
   return function grayToCharacter(gray: number): string {
     return ramp[Math.ceil((ramp.length - 1) * (gray / 255))];
   };
+}
+
+export function makeCharConverter(
+  gray: number[],
+  grayConverter: (g: number) => string,
+  width: number
+) {
+  return gray.reduce((chars, gray, index) => {
+    return (chars += grayConverter(gray) + (index % width === 0 ? "\n" : ""));
+  }, "");
 }
 
 export function getMonospaceFontRatio(
@@ -45,7 +55,7 @@ export function getMonospaceFontRatio(
   return height / width;
 }
 
-function ctxToGrayScale(
+export function ctxToGrayScale(
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
@@ -64,14 +74,6 @@ function ctxToGrayScale(
   return [grayScaled, target];
 }
 
-// const canvas = document.getElementById('preview');
-// const fileInput = document.querySelector('input[type="file"');
-// const asciiImage = document.getElementById('ascii');
-//
-// const context = canvas.getContext('2d');
-
-// const fontRatio = getFontRatio();
-
 interface DimensionalClamp {
   width: number;
   height: number;
@@ -80,7 +82,7 @@ interface DimensionalClamp {
   fontRatio: number;
 }
 
-function clampDimensions({
+export function clampDimensions({
   width,
   height,
   maxWidth = 80,

@@ -37,7 +37,9 @@ export default Vue.extend({
           // TODO: mirror loaded filename to document.title
           .then(async (dataUrl: string) => {
             // this.src = dataUrl;
-            await this.$store.dispatch("addImage", dataUrl);
+            await this.$store
+              .dispatch("addImage", dataUrl)
+              .then(result => this.$emit("image-added", result));
           })
           .then(() => (document.title = makeName(file.name)))
       );
