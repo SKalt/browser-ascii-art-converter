@@ -25,7 +25,7 @@ export interface RootGetters {
 }
 
 export function font(state, getters: RootGetters, rootState, rootGetters) {
-  return rootState. fontInfo.current;
+  return rootState.fontInfo.current;
 }
 
 export function fontRatio(state, getters, rootState) {
@@ -89,8 +89,9 @@ export function grayScaled(state, getters) {
   };
 }
 export function grayConverter(state, getters, rootState) {
-  return makeGrayConverter(rootState.config.grayRamp);
+  return makeGrayConverter(rootState.config.grayramp);
 }
+
 export function chArt(state, getters) {
   const {
     grayConverter,

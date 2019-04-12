@@ -34,8 +34,8 @@ export default Vue.extend({
   data() {
     return {
       grayramp: DEFAULT_RAMP,
-      height: 80,
-      width: 80
+      height: 20,
+      width: 20
     };
   },
   methods: {

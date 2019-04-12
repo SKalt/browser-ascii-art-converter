@@ -17,8 +17,8 @@ const module: Module<Config, RootState> = {
   namespaced: true,
   state: {
     grayramp: DEFAULT_RAMP,
-    height: 80,
-    width: 80
+    height: 20,
+    width: 20
   },
   mutations: {
     setGrayramp: setter("grayramp"),

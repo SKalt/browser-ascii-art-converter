@@ -5,9 +5,10 @@ and its associated repo, https://github.com/jpetitcolas/ascii-art-converter.
 import makeDebugger from './debug'
 const debug = makeDebugger('lib')
 type RGB = [number, number, number] | Uint8Array;
-// type RGBA = [number, number, number, number?];
+// type RGBA
+type RGBA = [number, number, number, number];
 // type Hex = number; // between 0x0 and 0xFFFFFF for rgb, 0xFFFFFFFF for rgba
-export type GrayScaler = (color: RGB) => number;
+export type GrayScaler = (color: RGBA) => number;
 
 export const DEFAULT_RAMP =
   "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
@@ -20,10 +21,17 @@ interface Palette {
 type Artist = (img: ImageData, palette: Palette) => string;
 
 export function makeGrayScaler(weights: RGB = [0.21, 0.72, 0.07]): GrayScaler {
-  return function grayScale(color: RGB = [0, 0, 0]): number {
-    return (
-      color[0] * weights[0] + color[1] * weights[1] + color[2] * weights[2]
-    );
+  return function grayScale(color: RGBA = [0, 0, 0, 0]): number {
+    const alpha = (color[3] || 0) / 255;
+    if (!alpha) {
+      return 255; // interpret "blank" as "white"
+    } else {
+      return (
+        color[0] * alpha * weights[0]
+        + color[1] * alpha * weights[1]
+        + color[2] * alpha * weights[2]
+      );
+    }
   };
 }
 
@@ -69,10 +77,11 @@ export function ctxToGrayScale(
   const grayScaled = [];
   const { data } = imageData;
   for (let i = 0; i < data.length; i += 4) {
-    const rgb: RGB = [data[i] || 0, data[i + 1] || 0, data[i + 2] || 0];
-    const gray = grayScale(rgb);
+    const rgba: RGBA = [data[i] || 0, data[i + 1] || 0, data[i + 2] || 0, data[i + 3] || 0];
+    const gray = grayScale(rgba);
     grayScaled.push(gray);
-    target.data[i] = target.data[i + 1] = target.data[i + 3] = gray;
+    target.data[i] = target.data[i + 1] = target.data[i + 2] = gray;
+    target.data[i + 3] = 255;
   }
   return [grayScaled, target];
 }
@@ -108,7 +117,7 @@ export function clampDimensions({
     return [reducedWidth, maxHeight];
   }
 
-  if (width > maxWidth) {
+  if (rectifiedWidth > maxWidth) {
     const reducedHeight = Math.floor((height * maxWidth) / rectifiedWidth);
     debug({ reducedHeight });
     return [maxWidth, reducedHeight];
