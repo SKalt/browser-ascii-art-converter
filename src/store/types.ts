@@ -2,20 +2,29 @@
 export interface CurrentImage {
   current: string; // the md5/id of the image in
 }
+export interface Dimensions {
+  width: number;
+  string: number;
+}
 export type RootState = CurrentImage;
 
-export interface ImageCache {
-  [md5: string]: string; // dataURI of the image
+export interface ImageDescriptor extends Dimensions {
+  // thin variant on HTMLImageElement that has loaded
+  dataUrl: string;
+  img: () => HTMLImageElement;
 }
 
-export interface Config {
-  width: number;
-  height: number;
+export interface ImageCache {
+  [md5: string]: ImageDescriptor; // dataURI of the image
+}
+
+export interface Config extends Dimensions {
   grayramp: string;
 }
 
 export interface FontState {
   current: string | null;
+  ratios: FontRatioInfo;
 }
 export interface FontRatioInfo {
   [font: string]: number;
@@ -25,7 +34,7 @@ export interface OverallState extends CurrentImage {
   rawImage: ImageCache;
   processedImage: ImageCache;
   config: Config;
-  fontInfo: FontInfo;
+  fontInfo: FontState;
 }
 
 export interface OverallGetters {

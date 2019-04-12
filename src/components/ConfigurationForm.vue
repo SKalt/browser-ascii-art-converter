@@ -1,7 +1,11 @@
 <template>
   <v-layout row wrap>
     <v-flex xs12>
-      <v-text-field label="grayramp" placeholder="" :value.sync="grayramp" />
+      <v-text-field
+        label="grayramp"
+        :value="grayramp"
+        @input="v => $store.commit('config/setGrayramp', v)"
+      />
     </v-flex>
     <!-- <three-digit-number-input label="R" />
     <three-digit-number-input label="G" />

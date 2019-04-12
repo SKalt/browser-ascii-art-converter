@@ -11,7 +11,7 @@ export default Vue.extend({
   },
   computed: {
     src() {
-      return this.$store.getters.rawImage;
+      return this.$store.getters.currentRawImageDataUrl;
     }
   }
 });

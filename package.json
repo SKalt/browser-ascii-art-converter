@@ -10,6 +10,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "debug": "^4.1.1",
     "md5": "^2.2.1",
     "qs": "^6.6.0",
     "register-service-worker": "^1.0.0",

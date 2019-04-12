@@ -46,9 +46,15 @@ export default Vue.extend({
   },
   methods: {
     loadFile(e: FileUploadEvent): Promise<void> {
-      return loadFile(e.target).then((dataUrl: string) => {
-        return this.$store.commit("rawImage/addImage", dataUrl);
-      });
+      const [file] = e.target.files || [];
+      return loadFile({files: [file]})
+        .then(async (dataUrl: string) => {
+          // this.src = dataUrl;
+          await this.$store
+            .dispatch("addImage", dataUrl)
+            .then(result => this.$emit("image-added", result));
+        })
+        .then(() => (document.title = makeName(file.name)))
     }
   }
 });

@@ -2,6 +2,8 @@
 https://www.jonathan-petitcolas.com/2017/12/28/converting-image-to-ascii-art.html
 and its associated repo, https://github.com/jpetitcolas/ascii-art-converter.
 */
+import makeDebugger from './debug'
+const debug = makeDebugger('lib')
 type RGB = [number, number, number] | Uint8Array;
 // type RGBA = [number, number, number, number?];
 // type Hex = number; // between 0x0 and 0xFFFFFF for rgb, 0xFFFFFFFF for rgba
@@ -37,7 +39,8 @@ export function makeCharConverter(
   width: number
 ) {
   return gray.reduce((chars, gray, index) => {
-    return (chars += grayConverter(gray) + (index % width === 0 ? "\n" : ""));
+    return (chars +=
+      grayConverter(gray) + ((index + 1) % width === 0 ? "\n" : ""));
   }, "");
 }
 
@@ -57,12 +60,12 @@ export function getMonospaceFontRatio(
 
 export function ctxToGrayScale(
   ctx: CanvasRenderingContext2D,
-  width: number,
-  height: number,
+  width: number = 0,
+  height: number = 0,
   grayScale: GrayScaler
 ): [number[], ImageData] {
-  const imageData = ctx.getImageData(0, 0, width, height);
-  const target = ctx.createImageData(width, height);
+  const imageData = ctx.getImageData(0, 0, width || 1, height || 1);
+  const target = ctx.createImageData(width || 1, height || 1);
   const grayScaled = [];
   const { data } = imageData;
   for (let i = 0; i < data.length; i += 4) {
@@ -91,16 +94,25 @@ export function clampDimensions({
 }: DimensionalClamp): [number, number] {
   const rectifiedWidth = Math.floor(fontRatio * width);
 
+  debug({
+    rectifiedWidth,
+    fontRatio,
+    width,
+    height,
+    maxWidth,
+    maxHeight
+  });
   if (height > maxHeight) {
     const reducedWidth = Math.floor((rectifiedWidth * maxHeight) / height);
+    debug({ reducedWidth });
     return [reducedWidth, maxHeight];
   }
 
   if (width > maxWidth) {
     const reducedHeight = Math.floor((height * maxWidth) / rectifiedWidth);
+    debug({ reducedHeight });
     return [maxWidth, reducedHeight];
   }
-
   return [rectifiedWidth, height];
 }
 export interface FileUploadEvent {
