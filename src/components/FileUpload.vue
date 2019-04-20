@@ -45,8 +45,11 @@ export default Vue.extend({
       );
   },
   methods: {
-    loadFile(e: FileUploadEvent): Promise<void> {
-      const [file] = e.target.files || [];
+    async loadFile(e: FileUploadEvent): Promise<string> {
+      const [file = null] = e.target.files || [];
+      if (!file) {
+        return '';
+      }
       return loadFile({files: [file]})
         .then(async (dataUrl: string) => {
           // this.src = dataUrl;

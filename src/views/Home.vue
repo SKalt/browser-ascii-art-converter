@@ -34,10 +34,10 @@ export default Vue.extend({
     });
   },
   computed: {
-    processed() {
+    processed(): string {
       return this.$store.getters.grayScaled.dataUrl;
     },
-    chars() {
+    chars(): string {
       return this.$store.getters.chArt;
     }
   }

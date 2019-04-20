@@ -7,17 +7,20 @@ import { ImageCache } from "../types";
 //   dataUrl: string;
 // }
 // type AddImageMutation = (state: HashToDataUrl, dataUrl: string) => RawId
-
+interface ImageWrapper {
+  width: number; height: number; img: HTMLImageElement;
+}
 async function imageOf(
   dataUrl: string
-) /*: Promise<{ width: number; height: number; img: HTMLImageElement }>*/ {
-  return new Promise(resolve => {
+): Promise<ImageWrapper> {
+  const result: Promise<ImageWrapper> = new Promise(resolve => {
     const img = new Image();
     img.onload = () => {
       resolve({ img, width: img.width, height: img.height });
     };
     img.src = dataUrl;
   });
+  return result;
 }
 
 const store: Module<ImageCache, object> = {
@@ -33,12 +36,12 @@ const store: Module<ImageCache, object> = {
         width,
         height
       }: {
-        hash: string;
-        dataUrl: string;
-        img: HTMLImageElement;
-        width: number;
-        height: number;
-      }
+          hash: string;
+          dataUrl: string;
+          img: HTMLImageElement;
+          width: number;
+          height: number;
+        }
     ) => {
       hash = hash || md5(dataUrl);
       if (!(hash in state)) {

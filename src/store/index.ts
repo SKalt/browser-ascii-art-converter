@@ -9,41 +9,39 @@ import Vuex, {
 } from "vuex";
 Vue.use(Vuex);
 import {
-  CurrentImage,
+  // CurrentImage,
   RootState,
   StateMirror,
-  OverallGetters /*, Config, ImageCache */
 } from "./types";
 import imageCache from "./modules/image-cache";
 import config from "./modules/config";
+import current from "./modules/current";
 import fontInfo from "./modules/font-info";
-import * as getters from "./getters"
+import getters, {
+  RootGetters,
+} from "./getters"
 import {
   GrayScaler,
-  makeGrayScaler,
-  makeGrayConverter,
   clampDimensions,
-  ctxToGrayScale,
-  makeCharConverter
 } from "../lib";
 // import { replace as replaceRoute, push as pushRoute } from "../router";
-const grayscaler = makeGrayScaler();
 
 const modules: ModuleTree<RootState> = {
   rawImage: imageCache,
   processedImage: imageCache,
   config,
-  fontInfo
+  current,
+  fontInfo,
 };
 
-const mutations: MutationTree<CurrentImage> = {
+const mutations: MutationTree<RootState> = {
   setState(state, hash: string) {
-    state.current = hash;
+    state.current.image = hash;
   }
 };
 
-const actions: ActionTree<CurrentImage, RootState> = {
-  async addImage(ctx: ActionContext<CurrentImage, RootState>, dataUrl: string) {
+const actions: ActionTree<RootState, RootState> = {
+  async addImage(ctx: ActionContext<RootState, RootState>, dataUrl: string) {
     const md5 = await ctx.dispatch("rawImage/addImage", dataUrl);
     ctx.commit("setState", md5);
     const {
@@ -62,8 +60,7 @@ const actions: ActionTree<CurrentImage, RootState> = {
   }
 };
 
-const store: StoreOptions<CurrentImage> = {
-  state: () => ({ current: "" }),
+const store: StoreOptions<RootState> = {
   mutations,
   actions,
   modules,
@@ -71,4 +68,4 @@ const store: StoreOptions<CurrentImage> = {
 };
 
 export default new Vuex.Store(store);
-export { OverallGetters, StateMirror };
+export { RootGetters, StateMirror };

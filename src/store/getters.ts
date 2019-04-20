@@ -6,13 +6,15 @@ import {
   ctxToGrayScale,
   makeCharConverter
 } from "../lib";
+import { GetterTree } from 'vuex'
 import makeDebugger from '../debug';
 const debug = makeDebugger('getters');
 import {
   CurrentImage,
   RootState,
   StateMirror,
-  OverallGetters, Dimensions /*, Config, ImageCache */
+  OverallGetters, Dimensions, /*, Config, ImageCache */
+  ImageDescriptor
 } from "./types";
 
 export interface RootGetters {
@@ -22,37 +24,43 @@ export interface RootGetters {
   currentRawImage: HTMLImageElement;
   currentRawImageDataUrl: string;
   currentRawImageDimensions: Dimensions;
+  'config/strHeight': string;
+  'config/strWidth': string;
+  grayConverter: (g: number) => string;
+  clampedDimensions: Dimensions;
+  grayScaled: { data: number[], dataUrl: string };
+  chArt: string;
 }
 
-export function font(state, getters: RootGetters, rootState, rootGetters) {
-  return rootState.fontInfo.current;
+export function font(state: RootState, getters: RootGetters): string | null {
+  return state.fontInfo.current;
 }
 
-export function fontRatio(state, getters, rootState) {
-  return rootState.fontInfo.ratios[getters.font] || 2.125;
+export function fontRatio(state: RootState, getters: RootGetters): number {
+  return state.fontInfo.ratios[getters.font] || 2.125;
 }
 
-export function currentRaw(state, getters, rootState) {
-  return rootState.rawImage[state.current] || { width: 0, height: 0 };
+export function currentRaw(state: RootState, getters: RootGetters): ImageDescriptor {
+  return state.rawImage[state.current.image] || { width: 0, height: 0, img: () => new Image() };
 }
-export function currentRawImage(state, getters) {
+export function currentRawImage(state: RootState, getters: RootGetters) {
   const { img } = getters.currentRaw;
   return img ? img() : new Image();
 }
-export function currentRawImageDataUrl(state, getters, rootState): string {
+export function currentRawImageDataUrl(state: RootState, getters: RootGetters): string {
   return getters.currentRaw.dataUrl || "";
 }
 export function currentRawImageDimensions(
-  state: any,
+  state: RootState,
   getters: RootGetters
 ): Dimensions {
-  const { width = 0, height = 0 } = getters.currentRaw;
+  const { width = 0, height = 0 } = getters.currentRaw.img();
   return { width, height };
 }
 
-export function clampedDimensions(state, getters, rootState) {
+export function clampedDimensions(state: RootState, getters: RootGetters): Dimensions {
   const raw = getters.currentRawImageDimensions;
-  const max = rootState.config;
+  const max = state.config;
   const { fontRatio } = getters;
   const [width, height] = clampDimensions({
     width: raw.width,
@@ -64,7 +72,7 @@ export function clampedDimensions(state, getters, rootState) {
   return { width, height };
 }
 // grayscaler
-export function grayScaled(state, getters) {
+export function grayScaled(state: RootState, getters: RootGetters): { data: null | number[], dataUrl: string } {
   const grayScaler = makeGrayScaler();
   const canvas = document.createElement("canvas");
   debug(getters.clampedDimensions);
@@ -88,11 +96,12 @@ export function grayScaled(state, getters) {
     dataUrl: canvas.toDataURL()
   };
 }
-export function grayConverter(state, getters, rootState) {
-  return makeGrayConverter(rootState.config.grayramp);
+export function grayConverter(state: RootState, getters: RootGetters) {
+  return makeGrayConverter(state.config.grayramp);
 }
 
-export function chArt(state, getters) {
+export function chArt(state: RootState, getters: RootGetters) {
+  debug('chArt generated')
   const {
     grayConverter,
     grayScaled: { data },
@@ -104,15 +113,27 @@ export function chArt(state, getters) {
 //   return rootState.config
 // },
 export function urlObj(
-  state,
-  ignoredGetters,
-  rootState,
-  rootGetters: OverallGetters
+  state: RootState,
+  getters: RootGetters,
 ): StateMirror {
   return {
-    raw: state.current,
-    width: rootGetters["config/strWidth"],
-    height: rootGetters["config/strHeight"],
-    grayramp: rootState.config.grayramp
+    raw: state.current.image,
+    width: getters["config/strWidth"],
+    height: getters["config/strHeight"],
+    grayramp: state.config.grayramp
   };
 }
+const getters: GetterTree<RootState, RootState> = {
+  urlObj,
+  font,
+  fontRatio,
+  currentRaw,
+  currentRawImage,
+  currentRawImageDataUrl,
+  currentRawImageDimensions,
+  grayConverter,
+  clampedDimensions,
+  grayScaled,
+  chArt,
+}
+export default getters;

@@ -10,7 +10,7 @@ export default Vue.extend({
     EnhancedImage
   },
   computed: {
-    src() {
+    src(): string {
       return this.$store.getters.currentRawImageDataUrl;
     }
   }

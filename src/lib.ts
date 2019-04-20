@@ -2,10 +2,14 @@
 https://www.jonathan-petitcolas.com/2017/12/28/converting-image-to-ascii-art.html
 and its associated repo, https://github.com/jpetitcolas/ascii-art-converter.
 */
+
 import makeDebugger from './debug'
 const debug = makeDebugger('lib')
+
+import GraphemeSplitter from 'grapheme-splitter';
+const splitter = new GraphemeSplitter();
+
 type RGB = [number, number, number] | Uint8Array;
-// type RGBA
 type RGBA = [number, number, number, number];
 // type Hex = number; // between 0x0 and 0xFFFFFF for rgb, 0xFFFFFFFF for rgba
 export type GrayScaler = (color: RGBA) => number;
@@ -15,10 +19,9 @@ export const DEFAULT_RAMP =
 
 interface Palette {
   tileRatio: number;
-  //
 }
 
-type Artist = (img: ImageData, palette: Palette) => string;
+// type Artist = (img: ImageData, palette: Palette) => string;
 
 export function makeGrayScaler(weights: RGB = [0.21, 0.72, 0.07]): GrayScaler {
   return function grayScale(color: RGBA = [0, 0, 0, 0]): number {
@@ -36,8 +39,9 @@ export function makeGrayScaler(weights: RGB = [0.21, 0.72, 0.07]): GrayScaler {
 }
 
 export function makeGrayConverter(ramp: string = DEFAULT_RAMP) {
+  const grayramp = splitter.splitGraphemes(ramp);
   return function grayToCharacter(gray: number): string {
-    return ramp[Math.ceil((ramp.length - 1) * (gray / 255))];
+    return grayramp[Math.ceil((grayramp.length - 1) * (gray / 255))] || '';
   };
 }
 

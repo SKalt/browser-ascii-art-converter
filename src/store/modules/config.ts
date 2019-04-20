@@ -15,11 +15,11 @@ const str = (key: ConfigKey) => (state: Config): string => `${state[key]}`;
 
 const module: Module<Config, RootState> = {
   namespaced: true,
-  state: {
+  state: () => ({
     grayramp: DEFAULT_RAMP,
     height: 20,
     width: 20
-  },
+  }),
   mutations: {
     setGrayramp: setter("grayramp"),
     setHeight: setter("height"),

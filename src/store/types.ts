@@ -1,12 +1,11 @@
 // import { ActionTree, MutationTree, GetterTree, ActionContext } from "vuex";
 export interface CurrentImage {
-  current: string; // the md5/id of the image in
+  image: string; // the md5/id of the image in
 }
 export interface Dimensions {
   width: number;
-  string: number;
+  height: number;
 }
-export type RootState = CurrentImage;
 
 export interface ImageDescriptor extends Dimensions {
   // thin variant on HTMLImageElement that has loaded
@@ -20,6 +19,8 @@ export interface ImageCache {
 
 export interface Config extends Dimensions {
   grayramp: string;
+  width: number;
+  height: number;
 }
 
 export interface FontState {
@@ -30,7 +31,8 @@ export interface FontRatioInfo {
   [font: string]: number;
 }
 
-export interface OverallState extends CurrentImage {
+export interface RootState {
+  current: CurrentImage;
   rawImage: ImageCache;
   processedImage: ImageCache;
   config: Config;
