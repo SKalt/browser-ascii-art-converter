@@ -13,6 +13,7 @@
     "baseUrl": ".",
     "types": ["node", "jest", "vuetify"],
     "paths": {
+      "*": ["types/*"],
       "@/*": ["src/*"]
     },
     "lib": ["es2018", "dom", "dom.iterable", "scripthost"]

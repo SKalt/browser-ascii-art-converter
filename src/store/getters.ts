@@ -1,5 +1,4 @@
 import {
-  GrayScaler,
   makeGrayScaler,
   makeGrayConverter,
   clampDimensions,
@@ -10,10 +9,9 @@ import { GetterTree } from 'vuex'
 import makeDebugger from '../debug';
 const debug = makeDebugger('getters');
 import {
-  CurrentImage,
   RootState,
   StateMirror,
-  OverallGetters, Dimensions, /*, Config, ImageCache */
+  Dimensions, /*, Config, ImageCache */
   ImageDescriptor
 } from "./types";
 

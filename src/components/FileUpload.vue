@@ -13,7 +13,7 @@
   </v-input>
 </template>
 <script lang="ts">
-import dfltImg from "../assets/logo.png";
+const dfltImg = require("../assets/logo.png");
 import RawImageView from "./RawImageView.vue";
 import Vue from "vue";
 import { loadFile } from "../lib";
@@ -28,7 +28,7 @@ export default Vue.extend({
     RawImageView
   },
   created() {
-    this.$router.push({ path: "/", query: {} });
+    // this.$router.push({ path: "/", query: {} });
     fetch(dfltImg)
       .then(r => r.blob())
       .then((b: Blob) => new File([b], "vue-logo.png", { type: "image/png" }))

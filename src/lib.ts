@@ -11,17 +11,10 @@ const splitter = new GraphemeSplitter();
 
 type RGB = [number, number, number] | Uint8Array;
 type RGBA = [number, number, number, number];
-// type Hex = number; // between 0x0 and 0xFFFFFF for rgb, 0xFFFFFFFF for rgba
 export type GrayScaler = (color: RGBA) => number;
 
 export const DEFAULT_RAMP =
   "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,\"^`'. ";
-
-interface Palette {
-  tileRatio: number;
-}
-
-// type Artist = (img: ImageData, palette: Palette) => string;
 
 export function makeGrayScaler(weights: RGB = [0.21, 0.72, 0.07]): GrayScaler {
   return function grayScale(color: RGBA = [0, 0, 0, 0]): number {

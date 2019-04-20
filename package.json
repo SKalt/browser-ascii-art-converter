@@ -10,6 +10,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@types/debug": "^4.1.4",
     "debug": "^4.1.1",
     "grapheme-splitter": "^1.0.4",
     "md5": "^2.2.1",
