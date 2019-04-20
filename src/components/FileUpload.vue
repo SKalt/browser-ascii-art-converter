@@ -1,16 +1,11 @@
 <template>
-  <v-input>
-    <input
-      class="btn"
-      ref="loader"
-      accept="image/*"
-      type="file"
-      @change="loadFile"
-    />
-    <raw-image-view />
-    <!-- <raw-image-view /> -->
-    <!-- <canvas ref="to-paint" v-show="false"></canvas> -->
-  </v-input>
+  <input
+    class="btn"
+    ref="loader"
+    accept="image/*"
+    type="file"
+    @change="loadFile"
+  />
 </template>
 <script lang="ts">
 const dfltImg = require("../assets/logo.png");
