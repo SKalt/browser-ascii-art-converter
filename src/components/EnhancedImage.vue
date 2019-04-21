@@ -11,6 +11,6 @@ export default Vue.extend({
 </script>
 <style scoped>
 .spaced {
-  padding: 5px;
+  margin: 5px;
 }
 </style>

@@ -1,22 +1,18 @@
 <template>
   <v-container class="home">
-    <v-layout row wrap>
-      <v-flex align-self-center xs12 md4>
+    <v-layout row wrap align-center align-content-center class="centered">
+      <v-flex xs12 sm5 md3 align-self-center justify-center justify-space-around>
         <file-upload />
       </v-flex>
-      <v-flex xs12 md4>
-        <raw-image-view />
-      </v-flex>
-      <v-flex xs12 md4>
-        <enhanced-image :src="processed" />
-      </v-flex>
+      <raw-image-view />
+      <enhanced-image :src="processed" />
       <div ref="canvas-holder" v-show="false"></div>
     </v-layout>
     <v-layout row wrap>
       <configuration-form />
     </v-layout>
-    <v-layout row wrap>
-      <v-flex xs12 align-self-center align-content-center>
+    <v-layout row wrap row wrap align-center align-content-center class="centered">
+      <v-flex xs12 align-self-center justify-center>
         <pre style="display: inline-block" class="v-card">{{ chars }}</pre>
       </v-flex>
     </v-layout>
@@ -61,5 +57,10 @@ export default Vue.extend({
 });
 </script>
 <style scoped>
-
+.centered {
+  text-align: center;
+}
+.bordered {
+  border: 1px solid black;
+}
 </style>
