@@ -5,7 +5,7 @@
         <file-upload />
       </v-flex>
       <raw-image-view />
-      <enhanced-image :src="processed" />
+      <processed-image-view />
       <div ref="canvas-holder" v-show="false"></div>
     </v-layout>
     <v-layout row wrap>
@@ -22,7 +22,8 @@
 <script lang="ts">
 import Vue from "vue";
 import EnhancedImage from "../components/EnhancedImage.vue";
-import RawImageView from "../components/RawImageView.vue";
+import RawImageView from "../components/ImageViewRaw.vue";
+import ProcessedImageView from "../components/ImageViewProcessed.vue";
 import ConfigurationForm from "../components/ConfigurationForm.vue";
 import FileUpload from "../components/FileUpload.vue";
 import {
@@ -39,7 +40,8 @@ export default Vue.extend({
     ConfigurationForm,
     EnhancedImage,
     FileUpload,
-    RawImageView
+    RawImageView,
+    ProcessedImageView
   },
   mounted() {
     this.$store.commit("fontInfo/ratios/setRatio", {
@@ -59,8 +61,5 @@ export default Vue.extend({
 <style scoped>
 .centered {
   text-align: center;
-}
-.bordered {
-  border: 1px solid black;
 }
 </style>

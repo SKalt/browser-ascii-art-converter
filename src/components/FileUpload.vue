@@ -9,7 +9,6 @@
 </template>
 <script lang="ts">
 const dfltImg = require("../assets/logo.png");
-import RawImageView from "./RawImageView.vue";
 import Vue from "vue";
 import { loadFile } from "../lib";
 import { makeName } from "../router";
@@ -19,9 +18,6 @@ interface FileUploadEvent {
 }
 
 export default Vue.extend({
-  components: {
-    RawImageView
-  },
   created() {
     // this.$router.push({ path: "/", query: {} });
     fetch(dfltImg)
