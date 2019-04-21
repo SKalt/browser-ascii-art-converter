@@ -53,7 +53,7 @@ export default Vue.extend({
   computed: {
     // ...mapState('config', ['width'])
     // ...mapGetters({clampedDimensions')
-    width() {
+    width(): number {
       return this.$store.getters.clampedDimensions.width || 20;
     }
   }

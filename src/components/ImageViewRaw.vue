@@ -6,6 +6,7 @@
 <script lang="ts">
 import Vue from "vue";
 import EnhancedImage from "./EnhancedImage.vue";
+import {Dimensions} from "../store/types";
 
 export default Vue.extend({
   components: {
@@ -15,7 +16,7 @@ export default Vue.extend({
     src(): string {
       return this.$store.getters.currentRawImageDataUrl;
     },
-    dimensions() {
+    dimensions(): Dimensions {
       return this.$store.getters.currentRawImageDimensions || {};
     },
     width(): string {
