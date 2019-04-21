@@ -10,11 +10,21 @@
     <!-- <three-digit-number-input label="R" />
     <three-digit-number-input label="G" />
     <three-digit-number-input label="B" /> -->
-    <three-digit-number-input
+    <!-- <three-digit-number-input
       label="width"
       :value="width"
       @input="v => $store.commit('config/setWidth', Number(v))"
-    />
+    /> -->
+    <v-flex xs1 style="padding: 4px">
+      <v-text-field
+        class="mt-0"
+        disabled
+        type="number"
+        min="0"
+        label="width"
+        :value="width"
+      />
+    </v-flex>
     <three-digit-number-input
       label="height"
       :value="height"
@@ -25,7 +35,7 @@
 <script lang="ts">
 import Vue from "vue";
 import ThreeDigitNumberInput from "./ThreeDigitNumberInput.vue";
-import { mapMutations } from "vuex";
+import { mapMutations, /*mapState,*/ mapGetters } from "vuex";
 import { DEFAULT_RAMP } from "../lib";
 export default Vue.extend({
   components: {
@@ -35,11 +45,17 @@ export default Vue.extend({
     return {
       grayramp: DEFAULT_RAMP,
       height: 20,
-      width: 20
     };
   },
   methods: {
     ...mapMutations(["config"])
+  },
+  computed: {
+    // ...mapState('config', ['width'])
+    // ...mapGetters({clampedDimensions')
+    width() {
+      return this.$store.getters.clampedDimensions.width || 20;
+    }
   }
 });
 </script>
