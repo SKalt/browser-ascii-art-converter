@@ -23,7 +23,7 @@ async function imageOf(
   return result;
 }
 
-const store: Module<ImageCache, object> = {
+const store: Module<ImageCache, any> = {
   namespaced: true,
   state: () => ({}),
   mutations: {

@@ -1,5 +1,5 @@
 <template>
-  <v-img :src="src" class="v-card spaced" height="200" width="200" contain>
+  <v-img :src="src" class="v-card spaced crisp-image" height="200" width="200" contain>
     <v-layout row align-end justify-end fill-height>
       <v-flex shrink class="enhanced-image-label">
         <slot>
@@ -18,6 +18,10 @@ export default Vue.extend({
 });
 </script>
 <style scoped>
+.crisp-image {
+  image-rendering: optimizeSpeed;
+}
+
 .spaced {
   margin: 5px;
 }

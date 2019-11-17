@@ -86,6 +86,7 @@ export function grayScaled(state: RootState, getters: RootGetters): { data: null
       dataUrl: ""
     };
   }
+  ctx.imageSmoothingEnabled = false;
   ctx.drawImage(img, 0, 0, width, height);
   const [grayScaled, target] = ctxToGrayScale(ctx, width, height, grayScaler);
   ctx.putImageData(target, 0, 0);

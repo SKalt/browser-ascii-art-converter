@@ -19,7 +19,7 @@ export const DEFAULT_RAMP =
 export function makeGrayScaler(weights: RGB = [0.21, 0.72, 0.07]): GrayScaler {
   return function grayScale(color: RGBA = [0, 0, 0, 0]): number {
     const alpha = (color[3] || 0) / 255;
-    if (!alpha) {
+    if (!alpha || alpha <= .01) {
       return 255; // interpret "blank" as "white"
     } else {
       return (
@@ -69,6 +69,7 @@ export function ctxToGrayScale(
   height: number = 0,
   grayScale: GrayScaler
 ): [number[], ImageData] {
+  ctx.imageSmoothingEnabled = false;
   const imageData = ctx.getImageData(0, 0, width || 1, height || 1);
   const target = ctx.createImageData(width || 1, height || 1);
   const grayScaled = [];
