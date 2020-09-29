@@ -11,7 +11,7 @@
     <v-layout row wrap>
       <configuration-form />
     </v-layout>
-    <v-layout row wrap row wrap align-center align-content-center class="centered">
+    <v-layout row wrap align-center align-content-center class="centered">
       <v-flex xs12 align-self-center justify-center>
         <pre style="display: inline-block" class="v-card">{{ chars }}</pre>
       </v-flex>
