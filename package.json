@@ -15,7 +15,7 @@
     "debug": "^4.1.1",
     "grapheme-splitter": "^1.0.4",
     "md5": "^2.2.1",
-    "qs": "^6.6.0",
+    "qs": "^6.6.1",
     "register-service-worker": "^1.0.0",
     "typescript": "^3.3.3333",
     "vue": "^2.5.16",
